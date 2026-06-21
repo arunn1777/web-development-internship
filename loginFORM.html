@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-deep:#0B3D3A;
+    --teal-line: #145c57;
+    --cream:#F6F7F2;
+    --ink:#171A18;
+    --ink-soft:#5B645F;
+    --gold:#C9A227;
+    --gold-soft:#E4CE85;
+    --border:#DEE2D8;
+    --error:#B3432B;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; }
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+  }
+
+  .wrapper{
+    display:grid;
+    grid-template-columns: 0.85fr 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- Brand panel ---------- */
+  .brand-panel{
+    position:relative;
+    background:var(--teal-deep);
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    padding:56px;
+  }
+
+  .lines{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .lines path{
+    fill:none;
+    stroke:var(--teal-line);
+    stroke-width:1;
+  }
+  .lines path.draw{
+    stroke:var(--gold-soft);
+    stroke-dasharray: 600;
+    stroke-dashoffset:600;
+    animation: draw 2.4s ease-out forwards;
+    opacity:0.65;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .brand-content{
+    position:relative;
+    z-index:2;
+    color:var(--cream);
+    max-width:380px;
+  }
+  .mark{
+    width:34px; height:34px;
+    border:1.5px solid var(--gold-soft);
+    border-radius:50%;
+    margin-bottom:28px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    color:var(--gold-soft);
+  }
+  .brand-content h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(28px, 4vw, 38px);
+    line-height:1.15;
+    margin:0 0 14px;
+  }
+  .brand-content p{
+    font-size:15px;
+    line-height:1.6;
+    color:#C9D6CF;
+    margin:0;
+  }
+
+  /* ---------- Form panel ---------- */
+  .form-panel{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+  }
+
+  .login-card{
+    width:100%;
+    max-width:380px;
+  }
+
+  .login-card h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:26px;
+    margin:0 0 6px;
+  }
+  .login-card .sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 32px;
+  }
+
+  .field{ margin-bottom:20px; }
+  .field label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+
+  .field input{
+    width:100%;
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    padding:12px 2px;
+    border:none;
+    border-bottom:1.5px solid var(--border);
+    background:transparent;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  .field input::placeholder{ color:#A7AFA8; }
+  .field input:focus{ border-bottom-color:var(--gold); }
+  .field input:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; border-radius:2px; }
+
+  .password-wrap{ position:relative; display:flex; align-items:center; }
+  .password-wrap input{ padding-right:30px; }
+  .toggle-pw{
+    position:absolute; right:0;
+    background:none; border:none; cursor:pointer;
+    color:var(--ink-soft);
+    padding:4px;
+    display:flex;
+  }
+  .toggle-pw svg{ width:18px; height:18px; }
+  .toggle-pw .icon-off{ display:none; }
+  .toggle-pw.is-visible .icon-on{ display:none; }
+  .toggle-pw.is-visible .icon-off{ display:block; }
+  .toggle-pw:focus-visible{ outline:2px solid var(--gold); border-radius:4px; }
+
+  .row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:6px 0 28px;
+    font-size:13.5px;
+  }
+  .remember{
+    display:flex; align-items:center; gap:7px;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .remember input{ accent-color:var(--teal-deep); width:14px; height:14px; cursor:pointer; }
+
+  .forgot{
+    color:var(--teal-deep);
+    text-decoration:none;
+    font-weight:600;
+    position:relative;
+  }
+  .forgot::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:-2px;
+    height:1px; background:var(--gold);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .2s ease;
+  }
+  .forgot:hover::after{ transform:scaleX(1); }
+
+  .login-btn{
+    width:100%;
+    border:none;
+    border-radius:6px;
+    background:var(--teal-deep);
+    color:var(--cream);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    padding:14px 0;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    gap:8px;
+    transition:background .2s ease, transform .15s ease;
+  }
+  .login-btn:hover{ background:#0E4A46; }
+  .login-btn:active{ transform:scale(0.99); }
+  .login-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .login-btn svg{ width:16px; height:16px; opacity:0; transform:scale(0.6); transition:opacity .25s ease, transform .25s ease; }
+  .login-btn.success svg{ opacity:1; transform:scale(1); }
+
+  .error-msg{
+    font-size:12.5px;
+    color:var(--error);
+    margin:-12px 0 16px;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  .shake{ animation:shake .4s ease; }
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-6px); }
+    75%{ transform:translateX(6px); }
+  }
+
+  .footer-note{
+    margin-top:28px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+  .footer-note a{ color:var(--teal-deep); font-weight:600; text-decoration:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .lines path.draw{ animation:none; stroke-dashoffset:0; }
+    .shake{ animation:none; }
+  }
+
+  @media (max-width: 860px){
+    .wrapper{ grid-template-columns: 1fr; }
+    .brand-panel{ display:none; }
+    .form-panel{ padding:24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <aside class="brand-panel">
+    <svg class="lines" viewBox="0 0 500 600" preserveAspectRatio="none">
+      <path d="M-20,500 C120,460 200,560 320,500 S460,420 560,460" />
+      <path d="M-20,420 C120,380 200,480 320,420 S460,340 560,380" />
+      <path class="draw" d="M-20,560 C140,500 220,600 340,540 S480,460 600,500" />
+    </svg>
+    <div class="brand-content">
+      <div class="mark">N</div>
+      <h1>Welcome back to Northbound</h1>
+      <p>Sign in to pick up your projects right where you left them.</p>
+    </div>
+  </aside>
+
+  <main class="form-panel">
+    <form class="login-card" id="loginForm" novalidate>
+      <h2>Sign in</h2>
+      <p class="sub">Enter your details to continue.</p>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <p class="error-msg" id="emailError">Enter a valid email address.</p>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required minlength="6">
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">
+            <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3l18 18"/><path d="M10.6 5.2A11 11 0 0 1 12 5c7 0 11 7 11 7a13.2 13.2 0 0 1-3.1 3.7M6.5 6.6C3.9 8.3 2 11 2 12s4 7 11 7c1.1 0 2.1-.14 3-.4"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="error-msg" id="pwError">Password must be at least 6 characters.</p>
+
+      <div class="row">
+        <label class="remember"><input type="checkbox"> Remember me</label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">
+        <span id="btnLabel">Log in</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+      </button>
+
+      <p class="footer-note">Don't have an account? <a href="#">Sign up</a></p>
+    </form>
+  </main>
+
+</div>
+
+<script>
+  const togglePw = document.getElementById('togglePw');
+  const pwInput = document.getElementById('password');
+  togglePw.addEventListener('click', () => {
+    const showing = pwInput.type === 'text';
+    pwInput.type = showing ? 'password' : 'text';
+    togglePw.classList.toggle('is-visible', !showing);
+    togglePw.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+  });
+
+  const form = document.getElementById('loginForm');
+  const emailInput = document.getElementById('email');
+  const emailError = document.getElementById('emailError');
+  const pwError = document.getElementById('pwError');
+  const btn = document.getElementById('loginBtn');
+  const btnLabel = document.getElementById('btnLabel');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const emailValid = emailInput.checkValidity();
+    const pwValid = pwInput.checkValidity();
+
+    emailError.classList.toggle('show', !emailValid);
+    pwError.classList.toggle('show', !pwValid);
+
+    if (!emailValid || !pwValid){
+      form.classList.remove('shake');
+      requestAnimationFrame(() => form.classList.add('shake'));
+      return;
+    }
+
+    btnLabel.textContent = 'Logged in';
+    btn.classList.add('success');
+  });
+</script>
+
+</body>
+</html>
