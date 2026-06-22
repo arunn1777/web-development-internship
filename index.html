@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-card">
+  <header>
+    <h1>Tasks</h1>
+    <p class="sub">Stay on top of what matters today.</p>
+  </header>
+
+  <form id="taskForm">
+    <input id="taskInput" type="text" placeholder="Add a new task..." autocomplete="off" maxlength="200">
+    <button type="submit">Add</button>
+  </form>
+
+  <div class="meta-row">
+    <span id="countLabel">0 tasks left</span>
+    <button type="button" id="clearCompleted" class="link-btn" disabled>Clear completed</button>
+  </div>
+
+  <ul id="taskList"></ul>
+  <p class="empty" id="emptyState">No tasks yet — add one above.</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
