@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tasks</title>
+<style>
+body{font-family:Arial;background:#f6f7f2;display:flex;justify-content:center;padding:50px}
+.app-card{width:460px}
+input{padding:12px;width:70%}
+button{padding:12px;background:#0B3D3A;color:white;border:0}
+li{list-style:none;background:white;margin:8px 0;padding:12px;border-radius:8px}
+.completed{text-decoration:line-through;color:gray}
+</style>
+</head>
+<body>
+<div class="app-card">
+<h1>Tasks</h1>
+<p>Stay on top of what matters today.</p>
+
+<form id="taskForm">
+<input id="taskInput" placeholder="Add a new task">
+<button>Add</button>
+</form>
+
+<p id="countLabel">0 tasks left</p>
+<button id="clearCompleted">Clear completed</button>
+
+<ul id="taskList"></ul>
+<p id="emptyState">No tasks yet — add one above.</p>
+</div>
+
+<script>
+const key="todo-app-tasks";
+const form=document.getElementById("taskForm");
+const input=document.getElementById("taskInput");
+const list=document.getElementById("taskList");
+const count=document.getElementById("countLabel");
+const clear=document.getElementById("clearCompleted");
+const empty=document.getElementById("emptyState");
+
+let tasks=JSON.parse(localStorage.getItem(key))||[];
+
+function save(){
+localStorage.setItem(key,JSON.stringify(tasks));
+}
+
+function render(){
+list.innerHTML="";
+tasks.forEach(t=>{
+let li=document.createElement("li");
+li.className=t.completed?"completed":"";
+
+let box=document.createElement("input");
+box.type="checkbox";
+box.checked=t.completed;
+box.onchange=()=>{t.completed=!t.completed;save();render()};
+
+let span=document.createElement("span");
+span.textContent=t.text;
+
+let del=document.createElement("button");
+del.textContent="Delete";
+del.onclick=()=>{tasks=tasks.filter(x=>x.id!==t.id);save();render()};
+
+li.append(box,span,del);
+list.appendChild(li);
+});
+
+let left=tasks.filter(t=>!t.completed).length;
+count.textContent=left+" tasks left";
+empty.style.display=tasks.length?"none":"block";
+}
+
+form.onsubmit=e=>{
+e.preventDefault();
+if(input.value.trim()){
+tasks.push({id:Date.now(),text:input.value,completed:false});
+save();
+input.value="";
+render();
+}
+};
+
+clear.onclick=()=>{
+tasks=tasks.filter(t=>!t.completed);
+save();
+render();
+};
+
+render();
+</script>
+</body>
+</html>
